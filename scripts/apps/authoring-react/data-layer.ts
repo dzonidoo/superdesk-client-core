@@ -69,6 +69,8 @@ function getArticleContentProfile<T>(item: IArticle, fieldsAdapter: IFieldsAdapt
 
                     return result;
                 })
+                .filter((t) => t.editorItem != null)
+                //.map((t) => ({...t, editorItem: {...t.editorItem, section: 'content'}}))
                 .sort((a, b) => a.editorItem.order - b.editorItem.order);
 
         let headerFields: IFieldsV2 = OrderedMap<string, IAuthoringFieldV2>();
@@ -85,6 +87,17 @@ function getArticleContentProfile<T>(item: IArticle, fieldsAdapter: IFieldsAdapt
                 readOnly: fieldEditor.readonly === true,
                 required: fieldEditor.required === true,
                 allow_toggling: fieldEditor.allow_toggling === true,
+                width: (() => {
+                    if (fieldEditor.sdWidth === 'full') {
+                        return 100;
+                    } else if (fieldEditor.sdWidth === 'half') {
+                        return 50;
+                    } else if (fieldEditor.sdWidth === 'quarter') {
+                        return 25;
+                    } else {
+                        return 100;
+                    }
+                })(),
             };
 
             const fieldV2: IAuthoringFieldV2 = (() => {

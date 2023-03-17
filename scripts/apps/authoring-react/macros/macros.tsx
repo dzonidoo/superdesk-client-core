@@ -280,6 +280,9 @@ class MacrosWidget extends React.PureComponent<IProps, IState> {
             macroProcessor.afterPatch(res.item as IArticle);
         }).catch((err) => {
             notify.error(err._message);
+            // error message
+            console.log(err);
+            
         });
     }
 
@@ -309,6 +312,8 @@ class MacrosWidget extends React.PureComponent<IProps, IState> {
                         expand
                         style="hollow"
                         onClick={() => {
+                            console.log(macro);
+                            
                             macro.action_type !== 'interactive'
                                 ? this.runMacro(macro)
                                 : this.runInteractiveMacro(macro);
