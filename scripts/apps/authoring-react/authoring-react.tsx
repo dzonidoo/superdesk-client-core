@@ -334,37 +334,40 @@ export class AuthoringReact<T extends IBaseRestApiResponse> extends React.PureCo
         };
 
         widgetReactIntegration.pinWidget = () => {
-            const widgetPinned = !(this.props.sideWidget?.pinned ?? false);
+            const nextPinnedWidget = this.props.sideWidget.pinnedId != null ? null : this.props.sideWidget.activeId;
             const update = {
                 type: 'string',
-                _id: widgetPinned ? this.props.sideWidget.id : null,
+                _id: nextPinnedWidget,
             };
 
-            closedIntentionally.value = true;
+            dispatchEvent(new CustomEvent('resize-monitoring', {
+                detail: {value: nextPinnedWidget ? -330 : 330},
+            }));
+
             sdApi.preferences.update(PINNED_WIDGET_USER_PREFERENCE_SETTINGS, update);
+
+            // Pinned state can change, but the active widget shouldn't change
+            // from this function
             this.props.onSideWidgetChange({
-                ...this.props.sideWidget,
-                pinned: widgetPinned,
+                activeId: this.props.sideWidget.activeId,
+                pinnedId: nextPinnedWidget,
             });
         };
 
         widgetReactIntegration.getActiveWidget = () => {
-            return this.props.sideWidget?.id ?? null;
+            return this.props.sideWidget?.activeId;
         };
 
         widgetReactIntegration.getPinnedWidget = () => {
-            const pinned = this.props.sideWidget?.pinned === true;
-
-            if (pinned) {
-                return this.props.sideWidget.id;
-            }
-
-            return null;
+            return this.props.sideWidget?.pinnedId;
         };
 
         widgetReactIntegration.closeActiveWidget = () => {
             closedIntentionally.value = false;
-            this.props.onSideWidgetChange(null);
+            this.props.onSideWidgetChange({
+                activeId: this.props.sideWidget?.pinnedId,
+                pinnedId: this.props.sideWidget?.pinnedId,
+            });
         };
 
         widgetReactIntegration.WidgetHeaderComponent = WidgetHeaderComponent;
@@ -1208,16 +1211,14 @@ export class AuthoringReact<T extends IBaseRestApiResponse> extends React.PureCo
             authoringStorage: authoringStorage,
             storageAdapter: storageAdapter,
             fieldsAdapter: fieldsAdapter,
-            sideWidget: this.props.sideWidget?.id ?? null,
+            sideWidget: this.props.sideWidget?.activeId,
             toggleSideWidget: (id) => {
-                if (id == null || this.props.sideWidget?.id === id) {
-                    this.props.onSideWidgetChange(null);
-                } else {
-                    this.props.onSideWidgetChange({
-                        id: id,
-                        pinned: false,
-                    });
-                }
+                const activeWidgetId = this.props.sideWidget?.activeId;
+
+                this.props.onSideWidgetChange({
+                    activeId: id,
+                    pinnedId: id === activeWidgetId ? activeWidgetId : this.props.sideWidget?.pinnedId,
+                });
             },
             addValidationErrors: (moreValidationErrors) => {
                 this.setState({
@@ -1333,11 +1334,11 @@ export class AuthoringReact<T extends IBaseRestApiResponse> extends React.PureCo
 
         for (let i = 0; i < widgetsCount; i++) {
             widgetKeybindings[`ctrl+alt+${i + 1}`] = () => {
-                const nextWidgetName: string = this.props.getSideWidgetIdAtIndex(exposed.item, i);
+                const nextWidgetId: string = this.props.getSideWidgetIdAtIndex(exposed.item, i);
 
                 this.props.onSideWidgetChange({
-                    id: nextWidgetName,
-                    pinned: this.props.sideWidget?.pinned ?? false,
+                    activeId: nextWidgetId,
+                    pinnedId: this.props.sideWidget?.pinnedId,
                 });
             };
         }
@@ -1355,8 +1356,6 @@ export class AuthoringReact<T extends IBaseRestApiResponse> extends React.PureCo
                 availableOffline: true,
             },
         ] : [];
-
-        const pinned = this.props.sideWidget?.pinned === true;
 
         const printPreviewAction = (() => {
             const execute = () => {
@@ -1415,6 +1414,8 @@ export class AuthoringReact<T extends IBaseRestApiResponse> extends React.PureCo
                 },
             },
         };
+
+        const isPinned = this.props.sideWidget?.pinnedId != null;
 
         const onChangeSideWidget = (item: T) => {
             authoringStorage.getContentProfile(item, this.props.fieldsAdapter)
@@ -1563,10 +1564,10 @@ export class AuthoringReact<T extends IBaseRestApiResponse> extends React.PureCo
                                         />
                                     </Layout.AuthoringMain>
                                 )}
-                                sideOverlay={!pinned && OpenWidgetComponent != null && OpenWidgetComponent}
-                                sideOverlayOpen={!pinned && OpenWidgetComponent != null}
-                                sidePanel={pinned && OpenWidgetComponent != null && OpenWidgetComponent}
-                                sidePanelOpen={pinned && OpenWidgetComponent != null}
+                                sideOverlay={!isPinned && OpenWidgetComponent != null && OpenWidgetComponent}
+                                sideOverlayOpen={!isPinned && OpenWidgetComponent != null}
+                                sidePanel={isPinned && OpenWidgetComponent != null && OpenWidgetComponent}
+                                sidePanelOpen={isPinned && OpenWidgetComponent != null}
                                 sideBar={this.props.getSidebar?.(exposed)}
                             />
                         )}
