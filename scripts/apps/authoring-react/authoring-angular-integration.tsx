@@ -3,7 +3,17 @@
 import {assertNever} from 'core/helpers/typescript-helpers';
 import {DeskAndStage} from './subcomponents/desk-and-stage';
 import {LockInfo} from './subcomponents/lock-info';
-import {Button, ButtonGroup, IconButton, Label, Modal, NavButton, Popover, Spacer, WithPopover} from 'superdesk-ui-framework/react';
+import {
+    Button,
+    ButtonGroup,
+    IconButton,
+    Label,
+    Modal,
+    NavButton,
+    Popover,
+    Spacer,
+    WithPopover,
+} from 'superdesk-ui-framework/react';
 import {
     IArticle,
     ITopBarWidget,
