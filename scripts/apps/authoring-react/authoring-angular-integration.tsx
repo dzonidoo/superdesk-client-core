@@ -458,7 +458,7 @@ function getInlineToolbarActions(
                 <>
                     <Popover
                         triggerSelector="#marked-for-desks"
-                        title={gettext('Marked for 123123123')}
+                        title={gettext('Marked for')}
                         placement="bottom-end"
                     >
                         <MarkedDesks
