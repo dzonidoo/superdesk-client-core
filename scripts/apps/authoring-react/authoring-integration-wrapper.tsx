@@ -359,6 +359,37 @@ export class AuthoringIntegrationWrapper extends React.PureComponent<IPropsWrapp
                             },
                             retrieveStoredValue: (item: IArticle, fieldId) => item.extra?.[fieldId] ?? null,
                         }}
+                        headerToolbar={((exposed) => {
+                            const getProfileAndReinitialize = (item: IArticle) =>
+                                this.props.authoringStorage.getContentProfile(
+                                    item,
+                                    exposed.fieldsAdapter,
+                                ).then((profile) => {
+                                    exposed.reinitialize(item, profile);
+                                });
+
+                            return [{
+                                component: ({entity}) => (
+                                    <div className="authoring-header__general-info">
+                                        <ContentProfileDropdown
+                                            item={entity}
+                                            reinitialize={(item) => {
+                                                const handledChanges = exposed.hasUnsavedChanges()
+                                                    ? exposed.handleUnsavedChanges()
+                                                    : Promise.resolve();
+
+                                                handledChanges.then(() => {
+                                                    getProfileAndReinitialize(item);
+                                                });
+                                            }}
+                                        />
+                                    </div>
+                                ),
+                                availableOffline: false,
+                                group: 'start',
+                                priority: 1,
+                            }];
+                        })}
                         getLanguage={(article) => article.language ?? 'en'}
                         onEditingStart={(article) => {
                             dispatchCustomEvent('articleEditStart', article);

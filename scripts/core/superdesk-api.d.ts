@@ -161,6 +161,7 @@ declare module 'superdesk-api' {
         initiateClosing(): void;
         keepChangesAndClose(): void;
         stealLock(): void;
+        reinitialize: (item: T, profile?: IContentProfileV2) => void;
         addValidationErrors(validationErrors: IAuthoringValidationErrors): void;
     }
 
@@ -214,6 +215,8 @@ declare module 'superdesk-api' {
             item: T;
             reinitialize(itemWithChanges: T): void;
         }>>;
+
+        headerToolbar?: (options: IExposedFromAuthoring<T>) => Array<ITopBarWidget<T>>;
 
         disableWidgetPinning?: boolean; // defaults to false
 
