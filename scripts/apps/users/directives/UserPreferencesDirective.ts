@@ -84,7 +84,7 @@ export function UserPreferencesDirective(
             scope.toggleUiTheme = function(theme) {
                 scope.activeTheme = theme;
                 if (orig['application:theme'] == null) {
-                    orig['application:theme'] = {}
+                    orig['application:theme'] = {};
                 }
                 orig['application:theme']['theme'] = theme;
             };
