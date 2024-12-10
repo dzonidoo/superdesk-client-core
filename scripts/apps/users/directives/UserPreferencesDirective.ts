@@ -83,6 +83,9 @@ export function UserPreferencesDirective(
 
             scope.toggleUiTheme = function(theme) {
                 scope.activeTheme = theme;
+                if (orig['application:theme'] == null) {
+                    orig['application:theme'] = {}
+                }
                 orig['application:theme']['theme'] = theme;
             };
 
@@ -285,7 +288,7 @@ export function UserPreferencesDirective(
                     }
                 });
 
-                scope.activeTheme = data['application:theme']['theme'];
+                scope.activeTheme = data['application:theme']?.['theme'] ?? 'light-ui';
                 // metadata service initialization is needed if its
                 // values object is undefined or any of the needed
                 // data buckets are missing in it

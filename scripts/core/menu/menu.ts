@@ -192,7 +192,7 @@ angular.module('superdesk.core.menu', [
                     scope.workspaceConfig = appConfig.workspace || {}; // it's used in workspaceMenu.filter
 
                     preferencesService.get().then((result) => {
-                        scope.theme = result['application:theme']['theme'] != null
+                        scope.theme = result['application:theme']?.['theme'] != null
                             ? result['application:theme']['theme']
                             : 'light-ui';
 
