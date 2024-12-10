@@ -175,7 +175,7 @@ angular.module('superdesk.core.menu', [
             _,
             workspaceMenu,
             $location,
-            preferencesService
+            preferencesService,
         ) {
             return {
                 require: '^sdSuperdeskView',
@@ -192,8 +192,9 @@ angular.module('superdesk.core.menu', [
                     scope.workspaceConfig = appConfig.workspace || {}; // it's used in workspaceMenu.filter
 
                     preferencesService.get().then((result) => {
-                        scope.theme = result['application:theme']['theme'] != null ?
-                        result['application:theme']['theme'] : 'light-ui';
+                        scope.theme = result['application:theme']['theme'] != null
+                            ? result['application:theme']['theme']
+                            : 'light-ui';
 
                         // set theme
                         body.attr('data-theme', scope.theme);

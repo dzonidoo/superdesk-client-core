@@ -285,7 +285,7 @@ export function UserPreferencesDirective(
                     }
                 });
 
-                scope.activeTheme = data['application:theme']['theme'];;
+                scope.activeTheme = data['application:theme']['theme'];
                 // metadata service initialization is needed if its
                 // values object is undefined or any of the needed
                 // data buckets are missing in it
