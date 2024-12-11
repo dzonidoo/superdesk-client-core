@@ -12,6 +12,14 @@ if (appConfig.shortTimeFormat == null) {
     appConfig.shortTimeFormat = 'HH:mm'; // 24h format
 }
 
+if (appConfig.ui == null) {
+    appConfig.ui = {};
+}
+
+if (appConfig.ui.sendEmbargo == null) {
+    appConfig.ui.sendEmbargo = false;
+}
+
 const defaultDateFormat = 'MM/DD';
 const defaultTimeFormat = 'hh:mm';
 

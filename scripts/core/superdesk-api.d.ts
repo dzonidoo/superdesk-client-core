@@ -3420,7 +3420,7 @@ declare module 'superdesk-api' {
             sendPublishSchedule?: boolean;
 
             /**
-             * Can set embargo in "send to" pane. Defaults to true;
+             * Can set embargo in "send to" pane. Defaults to false;
              */
             sendEmbargo?: boolean;
 
