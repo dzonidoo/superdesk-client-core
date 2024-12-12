@@ -20,6 +20,10 @@ if (appConfig.ui.sendEmbargo == null) {
     appConfig.ui.sendEmbargo = false;
 }
 
+if (appConfig.ui.italicAbstract == null) {
+    appConfig.ui.italicAbstract = true;
+}
+
 const defaultDateFormat = 'MM/DD';
 const defaultTimeFormat = 'hh:mm';
 
@@ -40,14 +44,6 @@ if (appConfig.view.timeformat == null) {
 
 if (appConfig.longDateFormat == null) {
     appConfig.longDateFormat = 'LLL';
-}
-
-if (appConfig.ui == null) {
-    appConfig.ui = {};
-
-    if (appConfig.ui.italicAbstract == null) {
-        appConfig.ui.italicAbstract = true;
-    }
 }
 
 if (appConfig.features == null) {
