@@ -12,6 +12,34 @@ if (appConfig.shortTimeFormat == null) {
     appConfig.shortTimeFormat = 'HH:mm'; // 24h format
 }
 
+if (appConfig.ui == null) {
+    appConfig.ui = {};
+}
+
+if (appConfig.ui.sendEmbargo == null) {
+    appConfig.ui.sendEmbargo = false;
+}
+
+if (appConfig.ui.italicAbstract == null) {
+    appConfig.ui.italicAbstract = true;
+}
+
+if (appConfig.authoring == null) {
+    appConfig.authoring = {};
+}
+
+if (appConfig.authoring.panels == null) {
+    appConfig.authoring.panels = {};
+}
+
+if (appConfig.authoring.panels.sendTo == null) {
+    appConfig.authoring.panels.sendTo = {};
+}
+
+if (appConfig.authoring.panels.sendTo.publishSchedule == null) {
+    appConfig.authoring.panels.sendTo.publishSchedule = false;
+}
+
 const defaultDateFormat = 'MM/DD';
 const defaultTimeFormat = 'hh:mm';
 
@@ -32,14 +60,6 @@ if (appConfig.view.timeformat == null) {
 
 if (appConfig.longDateFormat == null) {
     appConfig.longDateFormat = 'LLL';
-}
-
-if (appConfig.ui == null) {
-    appConfig.ui = {};
-
-    if (appConfig.ui.italicAbstract == null) {
-        appConfig.ui.italicAbstract = true;
-    }
 }
 
 if (appConfig.features == null) {

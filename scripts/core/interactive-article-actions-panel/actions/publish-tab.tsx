@@ -224,25 +224,30 @@ export class WithPublishTab extends React.PureComponent<IProps, IState> {
                                         );
                                     }}
                                     allowSettingEmbargo={appConfig.ui.publishEmbargo !== false}
+                                    allowSettingPublishSchedule={
+                                        appConfig.authoring.panels.publish.publishSchedule !== false
+                                    }
                                 />
 
-                                <PublishingTargetSelect
-                                    value={this.state.publishingTarget}
-                                    onChange={(val) => {
-                                        this.setState(
-                                            {publishingTarget: val},
-                                            () => {
-                                                this.props.onDataChange?.({
-                                                    ...this.props.item,
-                                                    ...getPublishingTargetPatch(
-                                                        this.props.item,
-                                                        this.state.publishingTarget,
-                                                    ),
-                                                });
-                                            },
-                                        );
-                                    }}
-                                />
+                                {appConfig.authoring.panels.publish.publishingTarget !== false && (
+                                    <PublishingTargetSelect
+                                        value={this.state.publishingTarget}
+                                        onChange={(val) => {
+                                            this.setState(
+                                                {publishingTarget: val},
+                                                () => {
+                                                    this.props.onDataChange?.({
+                                                        ...this.props.item,
+                                                        ...getPublishingTargetPatch(
+                                                            this.props.item,
+                                                            this.state.publishingTarget,
+                                                        ),
+                                                    });
+                                                },
+                                            );
+                                        }}
+                                    />
+                                )}
                             </div>
 
                             {
