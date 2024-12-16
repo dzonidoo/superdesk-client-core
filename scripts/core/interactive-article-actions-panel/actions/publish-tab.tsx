@@ -223,13 +223,13 @@ export class WithPublishTab extends React.PureComponent<IProps, IState> {
                                             },
                                         );
                                     }}
-                                    allowSettingEmbargo={appConfig.ui.publishEmbargo !== false}
+                                    allowSettingEmbargo={appConfig.ui.publishEmbargo}
                                     allowSettingPublishSchedule={
-                                        appConfig.authoring.panels.publish.publishSchedule !== false
+                                        appConfig.authoring.panels.publish.publishSchedule
                                     }
                                 />
 
-                                {appConfig.authoring.panels.publish.publishingTarget !== false && (
+                                {appConfig.authoring.panels.publish.publishingTarget && (
                                     <PublishingTargetSelect
                                         value={this.state.publishingTarget}
                                         onChange={(val) => {
