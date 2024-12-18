@@ -133,6 +133,8 @@ declare module 'superdesk-api' {
 
     export type IFieldsData = import('immutable').Map<string, unknown>;
 
+    export type IAuthoringValidationErrors = {[fieldId: string]: string};
+
     /**
      * Check authoring-react.tsx for comments on individual methods.
      */
@@ -246,6 +248,11 @@ declare module 'superdesk-api' {
     export type IAttachmentsValueStorage = IAttachmentsValueOperational;
     export type IAttachmentsUserPreferences = never;
     export type IAttachmentsConfig = ICommonFieldConfig;
+
+    // AUTHORING-REACT FIELD TYPES - boolean
+    export type IBooleanFieldValueOperational = boolean | null;
+    export type IBooleanFieldValueStorage = IValueOperational;
+    export type IBooleanFieldUserPreferences = never;
 
     // AUTHORING-REACT FIELD TYPES - date
 
@@ -2843,6 +2850,12 @@ declare module 'superdesk-api' {
         initialState?: any;
     }
 
+    export interface IPromptOptions {
+        inputLabel: string;
+        okButtonText?: string;
+        cancelButtonText?: string;
+    }
+
     export type ISuperdesk = DeepReadonly<{
         dataApi: IDataApi,
         dataApiByEntity: {
@@ -2895,6 +2908,7 @@ declare module 'superdesk-api' {
             showModal: (Component: React.ComponentType<{closeModal(): void;}>, containerClass?: string) => Promise<void>;
             alert(message: string): Promise<void>;
             confirm(message: string, title?: string): Promise<boolean>;
+            prompt(options: IPromptOptions): Promise<string>
             showIgnoreCancelSaveDialog(props: IIgnoreCancelSaveProps): Promise<IIgnoreCancelSaveResponse>;
             notify: {
                 info(text: string, displayDuration?: number, options?: INotifyMessageOptions): void;
