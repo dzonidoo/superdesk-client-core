@@ -3417,6 +3417,16 @@ declare module 'superdesk-api' {
             preview?: {
                 hideContentLabels: boolean;
             };
+
+            panels?: {
+                publish?: {
+                    publishSchedule?: boolean
+                    publishingTarget?: boolean;
+                }
+                sendTo?: {
+                    publishSchedule?: boolean;
+                }
+            }
         };
         ui: {
             /**
